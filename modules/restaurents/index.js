@@ -18,8 +18,8 @@ const SignUp=(arrayRes,callback)=>{
 
 }
 const add_posts = (cb, values, restaurantId) => {
-  const sql = `INSERT INTO posts (PostsImage, PostsDescription, restaurent_idRestaurent) VALUES (?, ?, ?)`;
-  connection.query(sql, [values.PostsImage, values.PostsDescription, restaurantId], (err, results) => {
+  const sql = `INSERT INTO posts (PostsImage, PostsDescription,category, restaurent_idRestaurent) VALUES (?, ?, ?, ?)`;
+  connection.query(sql, [values.PostsImage, values.PostsDescription,values.category, restaurantId], (err, results) => {
     cb(err, results);
   });
 };
@@ -31,10 +31,23 @@ const get_posts=(cb,id)=>{
   })
 }
 
+const getPostDetails = (cb,id)=> {
+const sql = `SELECT *
+FROM Posts
+INNER JOIN comments
+ON Posts.idPosts = comments.posts_idPosts
+LEFT JOIN likes
+ON Posts.idPosts = likes.posts_idPosts
+`
+connection.query(sql,[id],(err,results)=>{
+  cb(err,results) 
+})
+}
+
 
 const update_posts=(cb,values,id,idRes)=>{
-  const sql=`update posts set PostsImage=?, PostsDescription=? where idPosts=? and restaurent_idRestaurent=?`
-    connection.query(sql,[values.PostsImage,values.PostsDescription,id,idRes],(err,results)=>{
+  const sql=`update posts set PostsImage=?, PostsDescription=?, category=? where idPosts=? and restaurent_idRestaurent=?`
+    connection.query(sql,[values.PostsImage,values.PostsDescription,values.category,id,idRes],(err,results)=>{
   cb(err,results)
 })
 }
@@ -73,14 +86,28 @@ const delete_profile=(cb,id)=>{
   })
 }
 
-const addComments=(cb,values,idPost)=>{
-  console.log(values,'the valeu');
-  const sql = `insert into comments (commentsBody,posts_idPosts) values (?,?)`
-  connection.query(sql,[values.commentsBody,idPost],(err,res)=>{
+const addComments=(cb,values,idPost,idRes)=>{
+  const sql = `insert into comments (commentsBody,posts_idPosts,restaurents_idRestaurent) values (?,?,?)`
+  connection.query(sql,[values.commentsBody,idPost,Number(idRes)],(err,res)=>{
     cb(err,res)
   })
 }
 
+const getComments=(cb,id)=>{
+  const sql = `select * from comments where posts_idPosts=?`
+  connection.query(sql,[id],(err,res)=>{
+    cb(err,res)
+  })
+}
+
+
+const deleteCommentAdmin = (cb,id)=> {
+  const sql = `delete from comments where idcomments=?`
+  connection.query(sql,[id],(err,res)=>{
+    console.log(id);
+    cb(err,res)
+  })
+}
 
 
 module.exports={
@@ -94,5 +121,8 @@ module.exports={
   delete_profile,
   update_profile,
   get_restaurents,
-  addComments
+  addComments,
+  getComments,
+  getPostDetails,
+  deleteCommentAdmin
 }

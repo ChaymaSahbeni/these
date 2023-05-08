@@ -63,8 +63,9 @@ CREATE TABLE IF NOT EXISTS `foodini`.`posts` (
   `idPosts` INT NOT NULL AUTO_INCREMENT,
   `PostsImage` LONGTEXT NOT NULL,
   `PostsDescription` LONGTEXT NULL DEFAULT NULL,
-  `restaurent_idRestaurent` INT NOT NULL,
+  `category` ENUM('pizza', 'sandwich', 'plat', 'burger') NOT NULL,
   `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `restaurent_idRestaurent` INT NOT NULL,
   PRIMARY KEY (`idPosts`),
   INDEX `fk_Posts_restaurent1_idx` (`restaurent_idRestaurent` ASC) VISIBLE,
   CONSTRAINT `fk_Posts_restaurent1`
@@ -81,7 +82,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 CREATE TABLE IF NOT EXISTS `foodini`.`comments` (
   `idcomments` INT NOT NULL AUTO_INCREMENT,
   `commentsBody` LONGTEXT NULL DEFAULT NULL,
-  `commented_at` TIMESTAMP NULL DEFAULT NULL,
+  `commented_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   `posts_idPosts` INT NOT NULL,
   `clients_idClient` INT NULL,
   `restaurents_idRestaurent` INT NULL,
@@ -109,7 +110,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `foodini`.`likes` (
   `idlikes` INT NOT NULL AUTO_INCREMENT,
-  `liked` TINYINT NOT NULL DEFAULT '1',
+  `liked` TINYINT NOT NULL DEFAULT '0',
   `Client_idClient` INT NOT NULL,
   `posts_idPosts` INT NOT NULL,
   PRIMARY KEY (`idlikes`, `Client_idClient`, `posts_idPosts`),
