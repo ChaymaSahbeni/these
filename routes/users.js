@@ -1,9 +1,19 @@
 const express=require('express')
-const user=express.Router()
-user.post('signIn',)
-user.post('signUp',)
-user.use('signOut',)
-user.post('reservation',)
-user.get('search',)
-user.use('history',)
-user.use('userObject',)
+const {
+    addComment,
+    deleteComUser,
+    get_restaurents,
+    getPDetails,
+    like,
+    dislike,
+
+}= require('../controllers/user');
+const users =express.Router()
+users.post("/addComments/:idPost/:idClient", addComment);
+users.delete("/delCommentUser/:idClient/:idCom", deleteComUser);
+users.get("/getRestaurants",  get_restaurents);
+users.get("/get/postdetails/:idPost" , getPDetails);
+users.post("/addLike/:idPost/:idclient" , like)
+users.put("/updateLike/:idPost/:idlikes" , dislike);
+ 
+module.exports = users ;

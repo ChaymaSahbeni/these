@@ -28,7 +28,7 @@ restaurents.delete("/delete/onepost/:idRes/:idPost", deleteOnePost);
 restaurents.get("/get/restaurents/:id", get_restaurents);
 restaurents.delete("/delete/profile/:id", delete_profile);
 restaurents.put("/update/profile", update_profile);
-restaurents.post("/addComments/:idPost/:idRes/:idClient", addComments);
+restaurents.post("/addComments/:idPost/:idRes", addComments);
 restaurents.get("/getComments/:id", getComments);
 restaurents.delete("/delCommentAdmin/:id",deleteComAdmin)
 

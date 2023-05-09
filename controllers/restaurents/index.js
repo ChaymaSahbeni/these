@@ -196,16 +196,15 @@ const get_restaurent = (req, res) => {
 };
 
 const addComment = (req, res) => {
-  const { idPost, idClient, idRes } = req.params;
-  console.log({ idPost: idPost, idClient: idClient, idRes: idRes });
+  const { idPost, idRes } = req.params;
+  console.log({ idPost: idPost, idRes: idRes });
   addComments(
     (err, result) => {
       err ? res.status(404).send(err) : res.status(200).send(result);
     },
     req.body,
     idPost,
-    idRes,
-    idClient
+    idRes
   );
 };
 

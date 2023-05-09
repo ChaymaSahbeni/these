@@ -23,9 +23,8 @@ USE `foodini` ;
 CREATE TABLE IF NOT EXISTS `foodini`.`clients` (
   `idClient` INT NOT NULL AUTO_INCREMENT,
   `ClientName` VARCHAR(45) NOT NULL,
-  `ClientNumber` VARCHAR(45) NULL DEFAULT NULL,
-  `ClientEmail` VARCHAR(45) NULL DEFAULT NULL,
-  `clientsStatus` ENUM('validated', 'pending', 'active', 'banned') NULL DEFAULT 'pending',
+  `ClientNumber` INT NOT NULL,
+  `ClientEmail` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`idClient`),
   UNIQUE INDEX `ClientEmail_UNIQUE` (`ClientEmail` ASC) VISIBLE)
 ENGINE = InnoDB
@@ -39,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `foodini`.`restaurents` (
   `idRestaurent` INT NOT NULL AUTO_INCREMENT,
   `restaurentName` VARCHAR(45) NOT NULL,
   `restaurentAddress` VARCHAR(100) NOT NULL,
-  `restaurentNumber` VARCHAR(45) NOT NULL,
+  `restaurentNumber` INT NOT NULL,
   `restaurentImage` LONGTEXT NOT NULL,
   `restaurentDescription` LONGTEXT NULL DEFAULT NULL,
   `restaurentSpecialite` VARCHAR(45) NULL DEFAULT NULL,
