@@ -63,6 +63,7 @@ CREATE TABLE IF NOT EXISTS `foodini`.`posts` (
   `PostsImage` LONGTEXT NOT NULL,
   `PostsDescription` LONGTEXT NULL DEFAULT NULL,
   `category` ENUM('pizza', 'sandwich', 'plat', 'burger') NOT NULL,
+  `price` VARCHAR(45) NOT NULL,
   `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   `restaurent_idRestaurent` INT NOT NULL,
   PRIMARY KEY (`idPosts`),

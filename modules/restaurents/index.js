@@ -30,17 +30,27 @@ const get_posts=(cb,id)=>{
     cb(err,results) 
   })
 }
-
-const getPostDetails = (cb,id)=> {
-const sql = `SELECT *
+const getPostDetails = (cb, idPost) => {
+  const sql = `
+SELECT 
+  Posts.idPosts,
+  Posts.PostsImage,
+  Posts.PostsDescription,
+  Posts.category,
+  Posts.created_at,
+  Posts.restaurent_idRestaurent,
+  IFNULL(clients.ClientName, restaurents.restaurentName) as commenterName,
+  COUNT(likes.idlikes) as likesCount
 FROM Posts
-INNER JOIN comments
-ON Posts.idPosts = comments.posts_idPosts
-LEFT JOIN likes
-ON Posts.idPosts = likes.posts_idPosts
-`
-connection.query(sql,[id],(err,results)=>{
-  cb(err,results) 
+LEFT JOIN comments ON Posts.idPosts = comments.posts_idPosts
+LEFT JOIN clients ON comments.clients_idClient = clients.idClient
+LEFT JOIN restaurents ON comments.restaurents_idRestaurent = restaurents.idRestaurent
+LEFT JOIN likes ON Posts.idPosts = likes.posts_idPosts AND likes.liked = 1
+WHERE Posts.idPosts = ?
+GROUP BY Posts.idPosts, IFNULL(clients.ClientName, restaurents.restaurentName)`;
+
+connection.query(sql,[idPost],(err,res)=>{
+  cb(err,res)
 })
 }
 
